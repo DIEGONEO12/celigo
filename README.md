@@ -24,7 +24,8 @@
 
 ## Como Ajudar?
     * Precisamos agora colocar o sistema para rodar utilizando os recursos também da GPU
-    * Estamos desenvolvendo um treinamento de Redes Neurais para a I.A. pensar em quais chaves são as melhores
+    * Estamos desenvolvendo um treinamento de Redes Neurais para a I.A.  
+      Pensar em quais chaves são as melhores
     * Com uma I.A. bem treinada podemos chegar a trilhões de chaves por segundo
 
 ## Links para instalação do GO - Apenas para Progamadores Avançados
