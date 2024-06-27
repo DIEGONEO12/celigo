@@ -1,32 +1,34 @@
-# BTC GO V 0.2
+# CELI GO V 0.63 Ultra Monitor
 
 # Instruções para rodar o projeto
 
 ## Requisitos
     * GO
-    * Acesso a um terminal
+    * Acesso a um terminal CMD
+    * Roda tanto no Windows quanto no Linux
 
-## Links para instalação
+## Links para instalação do GO - Apenas para Progamadores Avançados
     * GO: https://go.dev/doc/install
 
-## Execução do corre
+## Execução do Sistema
 
-Se liga no esquema pra rodar o bagulho:
+Processo de Instalação do Sistema CELI GO para carteiras Puzzle (Desafio da Dark Web):
 
  * Clona o repo:
-  ``` git clone git@github.com:lmajowka/btcgo.git ```
- * Brota na pasta do projeto:
+  ``` git clone git@github.com/DIEGONEO12/celigo.git ```
+ * Abra a pasta do Projeto:
   ``` cd btcgo ```
- * Instala as parada:
+ * Instalar as dependências:
  ``` go mod tidy ```
  * Faz o build do projeto no LINUX:
  ``` go build -o btcgo ./src ``` 
 
   * Faz o build do projeto no WINDOWS:
- ``` go build -o btcgo.exe ./src ``` 
+ ``` go build -o btcgo.exe ./src ```
+
  * Executa o que foi compilado:
  ``` ./btcgo ```
 
-Aí é só seguir o baile, parceiro.
+Agora é só rodar 0 sistema e tentar a sorte!
  
 
