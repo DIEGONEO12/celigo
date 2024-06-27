@@ -9,7 +9,7 @@
 
 # Informações Técnicas
    * Se mudar a CARTEIRA ALVO precisa excluir o arquivo progress.json no diretório raiz do sistema
-   * Recomendamos rodas com o máximo de THREADS possíveis acima de 32
+   * Recomendamos rodar com o máximo de THREADS possíveis acima de 28 para performar como esperado
    * Capaz de processa 1.280.000 chaves por segundo nesta versão do CELI GO
 
 # Hardware Necessário
