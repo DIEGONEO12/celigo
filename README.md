@@ -1,5 +1,5 @@
 # CELI GO V 0.63 Ultra Monitor
-   * Enviar os dados para um Endereço Internet para Monitoramento
+   * Envia os dados para um Endereço Internet para Monitoramento (configurável)
    * Slava o trabalho referente a carteira alvo
    * Se desligar por algum motivo ao religar COMEÇA DE ONDE PAROU
 
