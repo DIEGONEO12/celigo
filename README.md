@@ -4,7 +4,7 @@
    * Se desligar por algum motivo ao religar COMEÇA DE ONDE PAROU
 
 # Instruções para rodar o projeto
-   * Recomendação apenas para Programadores
+   * Recomendado apenas para Programadores
    * Linguagem GO
 
 # Informações Técnicas
