@@ -15,7 +15,7 @@
    * Ativação de I.A. para Aprendizado Profundo
    * Integração de 100 camadas Deep Learning para processamento segundário
    * Treinamento da I.A. com 1 QUATRILHÃO de Chaves Bitcoin
-   * Utilização 1.000 camadas de profundidade para aprendizado conceitual
+   * Utilização 1.000 camadas de processamento de dados na Rede Neural da Celi
 
 # Informações Técnicas
    * Se mudar a CARTEIRA ALVO precisa excluir o arquivo progress.json no diretório raiz do sistema
@@ -97,8 +97,8 @@ Processo de Instalação do Sistema CELI GO para carteiras Puzzle (Desafio da Da
 Agora é só rodar 0 sistema e tentar a sorte!
  
 ## Desenvolvimento
-    * Leo
-    * Chat GPT 4
+    * Leo - Investidor Internacional
+    * Chat GPT 4 Premium
 
 ## Implementação MOD U-2
     * Diego Lincoln
