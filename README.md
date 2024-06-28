@@ -75,6 +75,9 @@ KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M89tAnjFUUDRtJ
 ## Links para instalação do GO - Apenas para Progamadores Avançados
     * GO: https://go.dev/doc/install
 
+## Instalar o Sistema de Importação de Chaves Privadas
+    * go get github.com/btcsuite/btcd/btcec golang.org/x/crypto/ripemd160
+
 ## Execução do Sistema
 
 Processo de Instalação do Sistema CELI GO para carteiras Puzzle (Desafio da Dark Web):
