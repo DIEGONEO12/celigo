@@ -1,4 +1,4 @@
-# CELI GO V 0.63 Ultra Monitor
+# CELI GO V 0.66 Ultra Monitor
    * Envia os dados para um Endereço Internet para Monitoramento (configurável)
    * Slava o trabalho referente a carteira alvo
    * Se desligar por algum motivo ao religar COMEÇA DE ONDE PAROU
@@ -52,6 +52,10 @@ Processo de Instalação do Sistema CELI GO para carteiras Puzzle (Desafio da Da
 
 Agora é só rodar 0 sistema e tentar a sorte!
  
-## Agradecimento
+## Sistema Desenvolvido por
     * Leo
-    * Investidor profissional
+    * Chat GPT 4
+
+## Implementação MOD U-2
+    * Diego Lincoln
+    * Celi AI 2024
