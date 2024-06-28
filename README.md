@@ -52,7 +52,7 @@ Processo de Instalação do Sistema CELI GO para carteiras Puzzle (Desafio da Da
 
 Agora é só rodar 0 sistema e tentar a sorte!
  
-## Sistema Desenvolvido por
+## Desenvolvimento
     * Leo
     * Chat GPT 4
 
