@@ -11,7 +11,7 @@
 # Chat GPT 4
    * Este sistema AVANÇADO chamado Ultron-2 foi criado pelo Chat GPT 4
    * O Ultron-2 surgiu quando foi solicitado ao Chat GPU 4 para aprimorar o código
-   * Com o Ultron-2 o sistemqa encontra carteiras válias com transações direto
+   * Com o Ultron-2 o sistemqa encontra carteiras válias com transações o tempo todo
    * São mais de 1.000 carteiras ativas encontradas pelo Ultron-2 por dia
 
 # Instruções para rodar o projeto
