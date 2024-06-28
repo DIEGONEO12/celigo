@@ -1,7 +1,18 @@
 # CELI GO V 0.66 Ultra Monitor
    * Envia os dados para um Endereço Internet para Monitoramento (configurável)
-   * Slava o trabalho referente a carteira alvo
+   * Salva o trabalho referente a carteira alvo
    * Se desligar por algum motivo ao religar COMEÇA DE ONDE PAROU
+
+# Integração Umbrel
+   * Em três dias será publicado a Integração Umbrel
+   * Objetivo: CONSULTAR O SALDO DA CARTEIRA QUANDO ENCONTRADA
+   * Necessário: SERVIDOR UMBREL COM BITCOIN NODE E MEMPOOL SINCRONIZADOS
+
+# Chat GPT 4
+   * Este sistema AVANÇADO chamado Ultron-2 foi criado pelo Chat GPT 4
+   * O Ultron-2 surgiu quando foi solicitado ao Chat GPU 4 para aprimorar o código
+   * Com o Ultron-2 o sistemqa encontra carteiras válias com transações direto
+   * São mais de 1.000 carteiras ativas encontradas pelo Ultron-2 por dia
 
 # Instruções para rodar o projeto
    * Recomendado apenas para Programadores
