@@ -112,7 +112,7 @@ Agora é só rodar 0 sistema e tentar a sorte!
  
 ## Desenvolvimento
     * Leo - Investidor Internacional
-    * Chat GPT 4 Premium
+    * Chat GPT 4
 
 ## Implementação MOD U-2
     * Diego Lincoln
