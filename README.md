@@ -8,11 +8,11 @@
   Encontramos e abrimos esta carteira que será compartilhada
   
   Chave privada encontrada: 0x0000000000000000000000000000000000000000000000000000000000000001
-  WIF: KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn
-  Endereço Bitcoin encontrado: 1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH
-  Mempool: http://192.168.1.30:3006/api/address/1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH
-  Saldo: 0.000000 BTC
-  Número de transações: 152
+    WIF: KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn
+    Endereço Bitcoin encontrado: 1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH
+    Mempool: http://192.168.1.30:3006/api/address/1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH
+    Saldo: 0.000000 BTC
+    Número de transações: 152
   
   Esta carteira tinha 152 Transações Registradas e muitas delas de 2024 (recentemente)
   Última Transação realizada quando começamos a Executar o Ultron-2 dia 09 de Junho de 2024
