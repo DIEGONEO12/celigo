@@ -68,170 +68,174 @@ func SaveProgress(filePath string, progress *Progress) error {
 }
 
 func main() {
-	green := color.New(color.FgGreen).SprintFunc()
+    green := color.New(color.FgGreen).SprintFunc()
 
-	exePath, err := os.Executable()
-	if err != nil {
-		fmt.Printf("Erro ao obter o caminho do executável: %v\n", err)
-		return
-	}
-	rootDir := filepath.Dir(exePath)
+    // Solicitar o número de CPUs a serem utilizados
+    var numCPU int
+    fmt.Print("Digite o número de CPUs a serem utilizados: ")
+    fmt.Scanf("%d", &numCPU)
 
-	ranges, err := LoadRanges(filepath.Join(rootDir, "data", "ranges.json"))
-	if err != nil {
-		log.Fatalf("Failed to load ranges: %v", err)
-	}
+    exePath, err := os.Executable()
+    if err != nil {
+        fmt.Printf("Erro ao obter o caminho do executável: %v\n", err)
+        return
+    }
+    rootDir := filepath.Dir(exePath)
 
-	color.Cyan("CELI AI - INFERÊNICA DE DADOS")
-	color.White("v0.61")
+    ranges, err := LoadRanges(filepath.Join(rootDir, "data", "ranges.json"))
+    if err != nil {
+        log.Fatalf("Failed to load ranges: %v", err)
+    }
 
-	rangeNumber := PromptRangeNumber(len(ranges.Ranges))
-	privKeyHex := ranges.Ranges[rangeNumber-1].Min
+    color.Cyan("CELI AI - INFERÊNICA DE DADOS")
+    color.White("v0.61")
 
-	progressFilePath := filepath.Join(rootDir, "progress.json")
-	progress, err := LoadProgress(progressFilePath)
-	if err != nil {
-		log.Fatalf("Failed to load progress: %v", err)
-	}
+    rangeNumber := PromptRangeNumber(len(ranges.Ranges))
+    privKeyHex := ranges.Ranges[rangeNumber-1].Min
 
-	privKeyInt := new(big.Int)
-	if progress.LastPrivKey != "" {
-		privKeyInt.SetString(progress.LastPrivKey[2:], 16)
-	} else {
-		privKeyInt.SetString(privKeyHex[2:], 16)
-	}
+    progressFilePath := filepath.Join(rootDir, "progress.json")
+    progress, err := LoadProgress(progressFilePath)
+    if err != nil {
+        log.Fatalf("Failed to load progress: %v", err)
+    }
 
-	wallets, err := LoadWallets(filepath.Join(rootDir, "data", "wallets.json"))
-	if err != nil {
-		log.Fatalf("Failed to load wallets: %v", err)
-	}
+    privKeyInt := new(big.Int)
+    if progress.LastPrivKey != "" {
+        privKeyInt.SetString(progress.LastPrivKey[2:], 16)
+    } else {
+        privKeyInt.SetString(privKeyHex[2:], 16)
+    }
 
-	keysChecked := progress.KeysChecked
-	startTime := time.Now()
+    wallets, err := LoadWallets(filepath.Join(rootDir, "data", "wallets.json"))
+    if err != nil {
+        log.Fatalf("Failed to load wallets: %v", err)
+    }
 
-	numCPU := runtime.NumCPU()
-	fmt.Printf("CPUs detectados: %s\n", green(numCPU))
-	runtime.GOMAXPROCS(numCPU * 2)
+    keysChecked := progress.KeysChecked
+    startTime := time.Now()
 
-	privKeyChan := make(chan *big.Int, numCPU * 2)
-	resultChan := make(chan *big.Int)
-	var wg sync.WaitGroup
+    fmt.Printf("CPUs detectados: %s\n", green(numCPU))
+    runtime.GOMAXPROCS(numCPU)
 
-	for i := 0; i < numCPU*2; i++ {
-		wg.Add(1)
-		go worker(wallets, privKeyChan, resultChan, &wg)
-	}
+    privKeyChan := make(chan *big.Int, numCPU)
+    resultChan := make(chan *big.Int)
+    var wg sync.WaitGroup
 
-	ticker := time.NewTicker(5 * time.Second)
-	defer ticker.Stop()
-	done := make(chan struct{})
+    for i := 0; i < numCPU; i++ {
+        wg.Add(1)
+        go worker(wallets, privKeyChan, resultChan, &wg)
+    }
 
-	prevKeysChecked := keysChecked
+    ticker := time.NewTicker(5 * time.Second)
+    defer ticker.Stop()
+    done := make(chan struct{})
 
-	go func() {
-		for {
-			select {
-			case <-ticker.C:
-				newKeysChecked := keysChecked
-				keysPerSecond := float64(newKeysChecked - prevKeysChecked) / 5.0
-				fmt.Printf("Chaves checadas: %s, Chaves por segundo: %s\n", humanize.Comma(int64(newKeysChecked)), humanize.Comma(int64(keysPerSecond)))
-				progress.LastPrivKey = fmt.Sprintf("0x%064x", privKeyInt)
-				progress.KeysChecked = keysChecked
-				SaveProgress(progressFilePath, progress)
-				prevKeysChecked = newKeysChecked
-			case <-done:
-				return
-			}
-		}
-	}()
+    prevKeysChecked := keysChecked
 
-	go func() {
-		defer close(privKeyChan)
-		for {
-			privKeyCopy := new(big.Int).Set(privKeyInt)
-			select {
-			case privKeyChan <- privKeyCopy:
-				privKeyInt.Add(privKeyInt, big.NewInt(1))
-				keysChecked++
-			case <-done:
-				return
-			}
-		}
-	}()
+    go func() {
+        for {
+            select {
+            case <-ticker.C:
+                newKeysChecked := keysChecked
+                keysPerSecond := float64(newKeysChecked - prevKeysChecked) / 5.0
+                fmt.Printf("Chaves checadas: %s, Chaves por segundo: %s\n", humanize.Comma(int64(newKeysChecked)), humanize.Comma(int64(keysPerSecond)))
+                progress.LastPrivKey = fmt.Sprintf("0x%064x", privKeyInt)
+                progress.KeysChecked = keysChecked
+                SaveProgress(progressFilePath, progress)
+                prevKeysChecked = newKeysChecked
+            case <-done:
+                return
+            }
+        }
+    }()
 
-	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
+    go func() {
+        defer close(privKeyChan)
+        for {
+            privKeyCopy := new(big.Int).Set(privKeyInt)
+            select {
+            case privKeyChan <- privKeyCopy:
+                privKeyInt.Add(privKeyInt, big.NewInt(1))
+                keysChecked++
+            case <-done:
+                return
+            }
+        }
+    }()
 
-	go func() {
-		sig := <-signalChan
-		fmt.Printf("Received signal: %v, saving progress...\n", sig)
-		progress.LastPrivKey = fmt.Sprintf("0x%064x", privKeyInt)
-		progress.KeysChecked = keysChecked
-		progress.ElapsedTime += time.Since(startTime).Seconds()
-		SaveProgress(progressFilePath, progress)
-		close(done)
-		os.Exit(0)
-	}()
+    signalChan := make(chan os.Signal, 1)
+    signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
 
-	var foundAddress *big.Int
-	select {
-	case foundAddress = <-resultChan:
-		color.Yellow("Chave privada encontrada: %064x\n", foundAddress)
-		wif := btc_utils.GenerateWif(foundAddress)
-		color.Yellow("WIF: %s", wif)
-		close(done)
+    go func() {
+        sig := <-signalChan
+        fmt.Printf("Received signal: %v, saving progress...\n", sig)
+        progress.LastPrivKey = fmt.Sprintf("0x%064x", privKeyInt)
+        progress.KeysChecked = keysChecked
+        progress.ElapsedTime += time.Since(startTime).Seconds()
+        SaveProgress(progressFilePath, progress)
+        close(done)
+        os.Exit(0)
+    }()
 
-		// Montando o URL com o WIF
-		url := fmt.Sprintf("https://sitedemonitoramentoaqui?data=%s", strings.ReplaceAll(wif, " ", "%20"))
+    var foundAddress *big.Int
+    select {
+    case foundAddress = <-resultChan:
+        color.Yellow("Chave privada encontrada: %064x\n", foundAddress)
+        wif := btc_utils.GenerateWif(foundAddress)
+        color.Yellow("WIF: %s", wif)
+        close(done)
 
-		// Fazendo a requisição GET
-		resp, err := http.Get(url)
-		if err != nil {
-			log.Fatalf("Erro ao fazer a requisição HTTP: %v", err)
-		}
-		defer resp.Body.Close()
+        // Montando o URL com o WIF para monitoramento
+        url := fmt.Sprintf("https://informeseusiteaqui?data=%s", strings.ReplaceAll(wif, " ", "%20"))
 
-		// Verificando a resposta
-		if resp.StatusCode == http.StatusOK {
-			fmt.Println("Requisição bem-sucedida!")
-			// Aqui você pode processar a resposta, se necessário
-		} else {
-			fmt.Printf("A requisição retornou um código de status não esperado: %d\n", resp.StatusCode)
-		}
+        // Fazendo a requisição GET
+        resp, err := http.Get(url)
+        if err != nil {
+            log.Fatalf("Erro ao fazer a requisição HTTP: %v", err)
+        }
+        defer resp.Body.Close()
 
-		fmt.Println("Pressione Enter para sair...")
-		fmt.Scanln() // Aguarda o usuário pressionar Enter
-	}
+        // Verificando a resposta
+        if resp.StatusCode == http.StatusOK {
+            fmt.Println("Requisição bem-sucedida!")
+            // Aqui você pode processar a resposta, se necessário
+        } else {
+            fmt.Printf("A requisição retornou um código de status não esperado: %d\n", resp.StatusCode)
+        }
 
-	wg.Wait()
+        fmt.Println("Pressione Enter para sair...")
+        fmt.Scanln() // Aguarda o usuário pressionar Enter
+    }
 
-	totalElapsedTime := progress.ElapsedTime + time.Since(startTime).Seconds()
-	keysPerSecond := float64(keysChecked) / totalElapsedTime
+    wg.Wait()
 
-	fmt.Printf("Chaves checadas: %s\n", humanize.Comma(int64(keysChecked)))
-	fmt.Printf("Tempo: %.2f seconds\n", totalElapsedTime)
-	fmt.Printf("Chaves por segundo: %s\n", humanize.Comma(int64(keysPerSecond)))
+    totalElapsedTime := progress.ElapsedTime + time.Since(startTime).Seconds()
+    keysPerSecond := float64(keysChecked) / totalElapsedTime
 
-	progress.LastPrivKey = fmt.Sprintf("0x%064x", privKeyInt)
-	progress.KeysChecked = keysChecked
-	progress.ElapsedTime = totalElapsedTime
-	SaveProgress(progressFilePath, progress)
+    fmt.Printf("Chaves checadas: %s\n", humanize.Comma(int64(keysChecked)))
+    fmt.Printf("Tempo: %.2f seconds\n", totalElapsedTime)
+    fmt.Printf("Chaves por segundo: %s\n", humanize.Comma(int64(keysPerSecond)))
 
-	fmt.Println("Pressione Enter para sair...")
-	fmt.Scanln() // Aguarda o usuário pressionar Enter
+    progress.LastPrivKey = fmt.Sprintf("0x%064x", privKeyInt)
+    progress.KeysChecked = keysChecked
+    progress.ElapsedTime = totalElapsedTime
+    SaveProgress(progressFilePath, progress)
+
+    fmt.Println("Pressione Enter para sair...")
+    fmt.Scanln() // Aguarda o usuário pressionar Enter
 }
 
 func worker(wallets *Wallets, privKeyChan <-chan *big.Int, resultChan chan<- *big.Int, wg *sync.WaitGroup) {
-	defer wg.Done()
-	for privKeyInt := range privKeyChan {
-		address := btc_utils.CreatePublicHash160(privKeyInt)
-		if Contains(wallets.Addresses, address) {
-			select {
-			case resultChan <- privKeyInt:
-				return
-			default:
-				return
-			}
-		}
-	}
+    defer wg.Done()
+    for privKeyInt := range privKeyChan {
+        address := btc_utils.CreatePublicHash160(privKeyInt)
+        if Contains(wallets.Addresses, address) {
+            select {
+            case resultChan <- privKeyInt:
+                return
+            default:
+                return
+            }
+        }
+    }
 }
