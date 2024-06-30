@@ -21,6 +21,10 @@
   ESTA REALMENTE PASSOU MUITO PERTO - CHEGAMOS SÓ UNS DIAS ATRASADOS
   E NÃO FUI EU COM TOTAL CERTEZA QUE ENCONTREI A PRIVATE KEY DELA - EU JURO
 
+# Atualizações do Sistema JUNHO 2024
+   * Opção de escoher o número de threads que serão utilizados do processador
+   * Opção de monitorar a eolução do sistema pela Internet
+   * Envia a carteira enontrada para o seu endereço na Internet
 
 # Integração Umbrel
    * Em três dias será publicado a Integração Umbrel
