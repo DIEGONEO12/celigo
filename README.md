@@ -21,10 +21,19 @@
   ESTA REALMENTE PASSOU MUITO PERTO - CHEGAMOS SÓ UNS DIAS ATRASADOS
   E NÃO FUI EU COM TOTAL CERTEZA QUE ENCONTREI A PRIVATE KEY DELA - EU JURO
 
+# Atualizações do Sistema JULHO 2024
+   * Agora você já pode ajustar a quantidade de threads que deseja utilizar
+   * Cria o arquivo progress.json.backup a cada 5 minutos
+   * Permite escolher se deseja criar o arquivo treinamento.json para Redes Neurais
+   * Agora é possível consultar o saldo das carteiras localmente utilizando o sistema Umbrel
+   * Necessário estar com a Bitcoin Node Ativada e Sincronizada
+   * Necessário ter a Mempool 100% atualizada e funcionando corretamente
+   * O sistema QUE PERMITE CONSULTAR O SALDO está no arquivo main_consulta_ok_acha_bitcoin.go
+
 # Atualizações do Sistema JUNHO 2024
    * Opção de escoher o número de threads que serão utilizados do processador
-   * Opção de monitorar a eolução do sistema pela Internet
-   * Envia a carteira enontrada para o seu endereço na Internet
+   * Opção de monitorar a evolução do sistema pela Internet
+   * Envia a carteira enontrada para o seu endereço na Internet (Configurável)
 
 # Integração Umbrel
    * Em três dias será publicado a Integração Umbrel
