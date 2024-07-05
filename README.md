@@ -3,6 +3,16 @@
    * Salva o trabalho referente a carteira alvo
    * Se desligar por algum motivo ao religar COMEÇA DE ONDE PAROU
 
+# LIBERAÇÃO DA MEMPOOL - CONSULTA SALDO BITCOIN NODE
+   * Como muitos alegaram que não foi DIEGO LINCOLN quem criou este sistema
+   * Foi proposto um desafio pelo Youtube no dia 28 de junho de 2024 (data de publicação)
+   * O desafio era qualquer pessoa do mundo enviar um link que porvasse que o sistema
+   * Consultasse o saldo Bitcoin em LOCALHOST e até o dia 04 de Julho de 2024
+   * Ninguém enviou qualquer link que seja, cumprindo o desafio
+   * Deste modo, no dia 04 de Julho de 2024 o arquivo main_consulta_ok_acha_bitcoin.go foi liberado!
+     
+     https://www.youtube.com/watch?v=dn5S89PpJac
+
 # Quase Encontramos uma Carteira com Muitos BitcoinS
    * Ao executar o sistema BTC-GO com o Protocolo Ultron-2 Ativado
    * Encontramos e abrimos esta carteira que será compartilhada
