@@ -10,7 +10,6 @@
    * Consultasse o saldo Bitcoin em LOCALHOST e até o dia 04 de Julho de 2024
    * Ninguém enviou qualquer link que seja, cumprindo o desafio
    * Deste modo, no dia 04 de Julho de 2024 o arquivo main_consulta_ok_acha_bitcoin.go foi liberado!
-
      https://www.youtube.com/watch?v=dn5S89PpJac
 
 # Quase Encontramos uma Carteira com Muitos BitcoinS
