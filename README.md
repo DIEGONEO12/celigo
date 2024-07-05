@@ -3,7 +3,7 @@
    * Salva o trabalho referente a carteira alvo
    * Se desligar por algum motivo ao religar COMEÇA DE ONDE PAROU
 
-# LIBERAÇÃO DA MEMPOOL - CONSULTA SALDO BITCOIN NODE
+# CONSULTA SALDO BITCOIN NODE
    * Como muitos alegaram que não foi DIEGO LINCOLN quem criou este sistema
    * Foi proposto um desafio pelo Youtube no dia 28 de junho de 2024 (data de publicação)
    * O desafio era qualquer pessoa do mundo enviar um link que porvasse que o sistema
